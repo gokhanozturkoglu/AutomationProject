@@ -48,11 +48,14 @@ public class PageOperationTest {
 
         WebElement searchData = driver.findElement(By.id("searchData"));
         searchData.sendKeys("bilgisayar");
+        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
         searchData.sendKeys(Keys.ENTER);
 
         //click second page in pagination
         driver.findElement(By.xpath("//div[@class=\"pagination\"] //a[contains(@href,\"&pg=2\")]")).click();
+        waitForPageLoaded();
         Assert.assertTrue(driver.getCurrentUrl().contains("&pg=2"), "Page number doesn't match");
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
         randomChoiceAndWriteFile(driver);
 
@@ -117,7 +120,7 @@ public class PageOperationTest {
         Random random = new Random();
         int productNumber = random.nextInt(allProductsInPage.size());
         driver.findElement(By.xpath(
-                String.format(("//div[@data-position='%s'] //div[@class=\"pro\"] //a[contains(@href,\"urun.n11.com/\")]"), productNumber)
+                String.format(("//div[@data-position='%s'] //div[@class=\"pro\"] //a[contains(@href,\"urun.n11.com/\")] //img"), 1)
         )).click();
 
         waitForPageLoaded();
